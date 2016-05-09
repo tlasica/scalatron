@@ -3,100 +3,103 @@
  */
 package org.fusesource.scalamd.test
 
-import org.specs.Specification
-import org.fusesource.scalamd.Markdown
-import org.apache.commons.lang3.StringUtils
-import org.specs.matcher.Matcher
 import org.apache.commons.io.IOUtils
+import org.apache.commons.lang3.StringUtils
+import org.fusesource.scalamd.Markdown
+import org.scalatest.matchers.{BeMatcher, MatchResult}
+import org.scalatest.{FeatureSpec, MustMatchers}
 
-object MarkdownSpec extends Specification {
+import scala.language.postfixOps
 
-  val beFine = new Matcher[String] {
-    def apply(name: => String) = {
-      val textFile = this.getClass.getResourceAsStream("/" + name + ".text")
-      val htmlFile = this.getClass.getResourceAsStream("/" + name + ".html")
+object MarkdownSpec extends FeatureSpec with MustMatchers {
+
+  class MarkdownMatcher extends BeMatcher[String] {
+    def apply(testCase: String): MatchResult = {
+      val textFile = this.getClass.getResourceAsStream("/" + testCase + ".text")
+      val htmlFile = this.getClass.getResourceAsStream("/" + testCase + ".html")
       val text = Markdown(IOUtils.toString(textFile, "ISO-8859-1")).trim
-//      println("[%s]".format(text))
       val html = IOUtils.toString(htmlFile, "ISO-8859-1").trim
       val diffIndex = StringUtils.indexOfDifference(text, html)
       val diff = StringUtils.difference(text, html)
-      (diffIndex == -1,
-          "\"" + name + "\" is fine",
-          "\"" + name + "\" fails at " + diffIndex + ": " + StringUtils.abbreviate(diff, 32))
+      MatchResult(
+        diffIndex == -1,
+        "\"" + testCase + "\" fails at " + diffIndex + ": " + StringUtils.abbreviate(diff, 32),
+        "\"" + testCase + "\" is fine"
+      )
     }
   }
+  val fine = new MarkdownMatcher
 
-  def process = addToSusVerb("process")
+  feature("MarkdownProcessor") {
 
-  "MarkdownProcessor" should process {
-    "Images" in {
-      "Images" must beFine
+    scenario("Images") {
+      "Images" must be (fine)
     }
-    "TOC" in {
-      "TOC" must beFine
+    scenario("TOC") {
+      "TOC" must be (fine)
     }
-    "Amps and angle encoding" in {
-      "Amps and angle encoding" must beFine
+    scenario("Amps and angle encoding") {
+      "Amps and angle encoding" must be (fine)
     }
-    "Auto links" in {
-      "Auto links" must beFine
+    scenario("Auto links") {
+      "Auto links" must be (fine)
     }
-    "Backslash escapes" in {
-      "Backslash escapes" must beFine
+    scenario("Backslash escapes") {
+      "Backslash escapes" must be (fine)
     }
-    "Blockquotes with code blocks" in {
-      "Blockquotes with code blocks" must beFine
+    scenario("Blockquotes with code blocks") {
+      "Blockquotes with code blocks" must be (fine)
     }
-    "Hard-wrapped paragraphs with list-like lines" in {
-      "Hard-wrapped paragraphs with list-like lines" must beFine
+    scenario("Hard-wrapped paragraphs with list-like lines") {
+      "Hard-wrapped paragraphs with list-like lines" must be (fine)
     }
-    "Horizontal rules" in {
-      "Horizontal rules" must beFine
+    scenario("Horizontal rules") {
+      "Horizontal rules" must be (fine)
     }
-    "Inline HTML (Advanced)" in {
-      "Inline HTML (Advanced)" must beFine
+    scenario("Inline HTML (Advanced)") {
+      "Inline HTML (Advanced)" must be (fine)
     }
-    "Inline HTML (Simple)" in {
-      "Inline HTML (Simple)" must beFine
+    scenario("Inline HTML (Simple)") {
+      "Inline HTML (Simple)" must be (fine)
     }
-    "Inline HTML comments" in {
-      "Inline HTML comments" must beFine
+    scenario("Inline HTML comments") {
+      "Inline HTML comments" must be (fine)
     }
-    "Links, inline style" in {
-      "Links, inline style" must beFine
+    scenario("Links, inline style") {
+      "Links, inline style" must be (fine)
     }
-    "Links, reference style" in {
-      "Links, reference style" must beFine
+    scenario("Links, reference style") {
+      "Links, reference style" must be (fine)
     }
-    "Literal quotes in titles" in {
-      "Literal quotes in titles" must beFine
+    scenario("Literal quotes titles") {
+      "Literal quotes titles" must be (fine)
     }
-    "Nested blockquotes" in {
-      "Nested blockquotes" must beFine
+    scenario("Nested blockquotes") {
+      "Nested blockquotes" must be (fine)
     }
-    "Ordered and unordered lists" in {
-      "Ordered and unordered lists" must beFine
+    scenario("Ordered and unordered lists") {
+      "Ordered and unordered lists" must be (fine)
     }
-    "Strong and em together" in {
-      "Strong and em together" must beFine
+    scenario("Strong and em together") {
+      "Strong and em together" must be (fine)
     }
-    "Tabs" in {
-      "Tabs" must beFine
+    scenario("Tabs") {
+      "Tabs" must be (fine)
     }
-    "Tidyness" in {
-      "Tidyness" must beFine
+    scenario("Tidyness") {
+      "Tidyness" must be (fine)
     }
-    "SmartyPants" in {
-      "SmartyPants" must beFine
+    scenario("SmartyPants") {
+      "SmartyPants" must be (fine)
     }
-    "Markdown inside inline HTML" in {
-      "Markdown inside inline HTML" must beFine
+    scenario("Markdown inside inline HTML") {
+      "Markdown inside inline HTML" must be (fine)
     }
-    "Spans inside headers" in {
-      "Spans inside headers" must beFine
+    scenario("Spans inside headers") {
+      "Spans inside headers" must be (fine)
     }
-    "Macros" in {
-      "Macros" must beFine
+    scenario("Macros") {
+        "Macros" must be (fine)
     }
   }
 }

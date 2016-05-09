@@ -11,6 +11,7 @@ object build extends Build {
 
   def standardSettings = Defaults.defaultSettings ++ src ++ Seq (
     scalaVersion := compilerVersion,
+    scalacOptions ++= List("-deprecation", "-feature"),
     assemblyMergeStrategy in assembly := {
       case "plugin.properties" => MergeStrategy.first
       case "about.html" => MergeStrategy.first
@@ -22,7 +23,7 @@ object build extends Build {
 
 
   lazy val implVersion = Seq (
-    packageOptions <<= (version) map {
+    packageOptions <<= version map {
       scalatronVersion => Seq(Package.ManifestAttributes(
         ("Implementation-Version", scalatronVersion)
       ))
@@ -99,9 +100,9 @@ object build extends Build {
       resourceDirectory in Test <<= baseDirectory / "test/resources"
     ) ++ Seq(
       libraryDependencies ++= Seq(
-        //                "org.scala-tools.testing" %% "specs" % "1.6.9",
         "commons-io" % "commons-io" % "2.3",
-        "org.apache.commons" % "commons-lang3" % "3.1"
+        "org.apache.commons" % "commons-lang3" % "3.1",
+        "org.scalatest" %% "scalatest" % "2.2.4" % "test"
       )
     ) ++ Seq (
       jarName in assembly := "ScalaMarkdown.jar"
