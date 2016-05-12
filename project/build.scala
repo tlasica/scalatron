@@ -6,7 +6,7 @@ import sbtassembly.AssemblyPlugin.autoImport._
 object build extends Build {
   val compilerVersion = "2.11.8"
 
-  lazy val libAkkaActors = "com.typesafe.akka" %% "akka-actor" % "2.3.6"
+  lazy val libAkkaActors = "com.typesafe.akka" %% "akka-actor" % "2.4.4"
 
 
   def standardSettings = Defaults.defaultSettings ++ src ++ Seq (
@@ -65,15 +65,15 @@ object build extends Build {
       libraryDependencies ++= Seq(
         "org.scala-lang" % "scala-compiler" % compilerVersion,
         libAkkaActors,
-        "org.eclipse.jetty.aggregate" % "jetty-webapp" % "7.6.2.v20120308" intransitive,
-        "org.codehaus.jackson" % "jackson-jaxrs" % "1.9.2",
-        "com.sun.jersey" % "jersey-bundle" % "1.12",
-        "javax.servlet" % "servlet-api" % "2.5",
-        "org.eclipse.jgit" % "org.eclipse.jgit" % "1.3.0.201202151440-r",
-        "org.eclipse.jgit" % "org.eclipse.jgit.http.server" % "1.3.0.201202151440-r",
-        "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-        "org.testng" % "testng" % "6.5.1" % "test",
-        "org.specs2" %% "specs2-core" % "3.8" % "test"
+        "org.eclipse.jetty" % "jetty-webapp" % "9.3.8.v20160314",
+        "com.fasterxml.jackson.jaxrs" % "jackson-jaxrs-json-provider" % "2.7.4",
+        "org.glassfish.jersey.containers" % "jersey-container-jetty-servlet" % "2.22.2",
+        "javax.servlet" % "javax.servlet-api" % "3.1.0",
+        "org.eclipse.jgit" % "org.eclipse.jgit" % "4.3.1.201605051710-r",
+        "org.eclipse.jgit" % "org.eclipse.jgit.http.server" % "4.3.1.201605051710-r",
+        "org.scalatest" %% "scalatest" % "3.0.0-M15" % "test",
+        "org.testng" % "testng" % "6.9.11" % "test",
+        "org.specs2" %% "specs2-core" % "3.8.2" % "test"
       ),
       resolvers ++= Seq("JGit Repository" at "http://download.eclipse.org/jgit/maven",
         "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
@@ -85,8 +85,8 @@ object build extends Build {
   lazy val cli = Project("ScalatronCLI", file("ScalatronCLI"),
     settings = standardSettings ++ Seq(
       libraryDependencies ++= Seq(
-        "org.apache.httpcomponents" % "httpclient" % "4.1.3",
-        "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.2"
+        "org.apache.httpcomponents" % "httpclient" % "4.5.2",
+        "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4"
       )
     ) ++ Seq (
       jarName in assembly := "ScalatronCLI.jar"
@@ -100,9 +100,9 @@ object build extends Build {
       resourceDirectory in Test <<= baseDirectory / "test/resources"
     ) ++ Seq(
       libraryDependencies ++= Seq(
-        "commons-io" % "commons-io" % "2.3",
-        "org.apache.commons" % "commons-lang3" % "3.1",
-        "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+        "commons-io" % "commons-io" % "2.5",
+        "org.apache.commons" % "commons-lang3" % "3.4",
+        "org.scalatest" %% "scalatest" % "3.0.0-M15" % "test"
       )
     ) ++ Seq (
       jarName in assembly := "ScalaMarkdown.jar"
