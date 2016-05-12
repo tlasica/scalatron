@@ -72,7 +72,7 @@ object build extends Build {
         "org.eclipse.jgit" % "org.eclipse.jgit" % "4.3.1.201605051710-r",
         "org.eclipse.jgit" % "org.eclipse.jgit.http.server" % "4.3.1.201605051710-r",
         "org.scalatest" %% "scalatest" % "3.0.0-M15" % "test",
-        "org.testng" % "testng" % "6.9.11" % "test",
+        "org.testng" % "testng" % "6.9.10" % "test",
         "org.specs2" %% "specs2-core" % "3.8.2" % "test"
       ),
       resolvers ++= Seq("JGit Repository" at "http://download.eclipse.org/jgit/maven",
