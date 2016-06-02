@@ -1,6 +1,6 @@
 package scalatron.webServer.rest
 
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import java.lang.reflect.Type
 import java.io.OutputStream
 import resources._

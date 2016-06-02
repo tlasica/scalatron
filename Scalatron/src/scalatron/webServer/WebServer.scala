@@ -1,12 +1,16 @@
 package scalatron.webServer
 
 import org.eclipse.jetty
-import java.net.{UnknownHostException, InetAddress}
+import java.net.{InetAddress, UnknownHostException}
+
 import org.eclipse.jetty.servlet.{ServletContextHandler, ServletHolder}
 import javax.servlet.http.HttpServlet
+
+import org.glassfish.jersey.server.ResourceConfig
+
 import rest.RestApplication
 import scalatron.core.Scalatron
-import com.sun.jersey.spi.container.servlet.ServletContainer
+import org.glassfish.jersey.servlet.ServletContainer
 import servelets.{AdminServlet, UserServlet, HomePageServlet, WebContext, GitServlet}
 import akka.actor.ActorSystem
 
@@ -85,7 +89,9 @@ object WebServer {
         context.addServlet(holder(AdminServlet(webCtx)), "/admin/*")
         context.addServlet(holder(GitServlet(webCtx)), "/git/*")
 
-        val jerseyServlet: ServletContainer = new ServletContainer(new RestApplication(scalatron, verbose))
+        val jerseyServlet: ServletContainer = new ServletContainer(
+            ResourceConfig.forApplication(new RestApplication(scalatron, verbose))
+        )
 
         context.addServlet(holder(jerseyServlet), "/api/*");
 
